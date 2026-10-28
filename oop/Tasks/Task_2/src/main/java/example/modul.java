@@ -109,7 +109,7 @@ public class modul {
                     System.out.printf("Выбрано заполнение из файла:%n");
                     System.out.printf("Введите путь читаемого файла:%n");
                     url = sc.next();
-                    try{
+                    try{                    //Проверка на наличие файла и на правильную запись числа
                         modul.FileIn(arrl, url);
                     }
                     catch ( FileNotFoundException e){

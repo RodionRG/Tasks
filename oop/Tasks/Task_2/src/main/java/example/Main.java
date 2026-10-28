@@ -77,7 +77,7 @@ public class Main {
                     System.out.printf("Выбрано заполнение из файла:%n");
                     System.out.printf("Введите путь читаемого файла:%n");
                     url = sc.next();
-                    try{
+                    try{                //Проверка на наличие файла и на правильную запись числа
                         modul.FileIn(arrl, url);
                     }
                     catch ( FileNotFoundException e){
@@ -107,8 +107,8 @@ public class Main {
 
         System.out.printf("Ответ: %.15f%n",answer);
 
-        System.out.printf("Записать массив в файл?%n [1] Да%n [2] Нет%n");
-        try {
+        System.out.printf("Записать массив в файл?%n [1] Да%n [2] Нет%n"); //сохранение массива в файл
+        try {                           //Проверка на наличие файла
             if (1 == sc.nextInt()){
                 System.out.printf("Введите путь файла для записи:%n");
                 url = sc.next();

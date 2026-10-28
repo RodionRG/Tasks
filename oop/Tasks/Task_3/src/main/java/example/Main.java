@@ -13,7 +13,7 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
 
-        try {
+        try {       //Проверка правельные ли аргументы
             Person p1 = new Person("Анатолий", "Маратович","Аухадеев", LocalDate.of(2009, 3,15));
             p1.setbirthDate(LocalDate.of(1999,5,12));
             System.out.println( "Возраст: " + p1.getAge() );
@@ -23,15 +23,15 @@ public class Main {
             System.out.println( "Неверный аргумент" );
         }
 
-
+        //Массив из 15 ссылок на класс Person
         Person[] band = new Person[15];
 
         System.out.println( "Ведите путь считываемого файла" );
         String fileIn = in.next();
 
-        try (Scanner sc = new Scanner(new File(fileIn))) {
+        try (Scanner sc = new Scanner(new File(fileIn))) {    //Проверка на наличие файла и на правильную запись формата даты (дд.мм.гггг)
             int i = 0;
-            while (sc.hasNextLine()) {
+            while (sc.hasNextLine()) {  //инициализация объектов person в массиве из файла
                 if (i>=15);
                 band[i] = new Person(sc.next(), sc.next(), sc.next(), LocalDate.parse(sc.next(), band[i].Format));
                 i++;
@@ -45,7 +45,7 @@ public class Main {
             System.out.println("Неправильный формат даты");
         }
 
-        System.out.println( "Band: " );
+        System.out.println( "Band: " );         //Вывод
 
         for (int i = 0; i < 15; i++) {
             System.out.println(band[i]);
@@ -53,12 +53,10 @@ public class Main {
 
         System.out.println( "" );
         System.out.println( "Введите путь файла для записи" );
-
-        System.out.println( "Ведите путь считываемого файла" );
         String fileOut = in.next();
 
-        try (PrintWriter w = new PrintWriter(fileOut)){
-            for (int i = 0; i < 15; i++) {
+        try (PrintWriter w = new PrintWriter(fileOut)){         //Проверка на наличие файлов
+            for (int i = 0; i < 15; i++) {          //Запись в файл
                 w.printf("%s%n",band[i]);
             }
         }catch (FileNotFoundException e){
