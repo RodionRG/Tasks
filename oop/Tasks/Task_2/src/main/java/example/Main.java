@@ -1,5 +1,7 @@
 package example;
+import java.io.FileNotFoundException;
 import java.lang.classfile.instruction.SwitchCase;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import static java.lang.Math.*;
@@ -16,8 +18,9 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int n,choice;
-        double[] arr;
+        ArrayList<Double> arrl = new ArrayList<>();
         double sum, answer;
+        String url;
 
         if (args.length==0){                                        //Если аргументов нет то объявляется сканер
             System.out.println("Введите кол-во чисел");             //и значения вводятся пользоваелем вручную
@@ -30,11 +33,10 @@ public class Main {
                 sc.close();
                 return;
             }
-            arr = new double[n];
 
-            modul.Choice(arr, sc);
+            modul.Choice(arrl, sc, n);
         }
-        else if (args.length==2){                   //Если 2 аргумента соответствующих значений
+        else if (args.length==3){                   //Если 3 аргумента соответствующих значений
             try {                                   //Проверка на правильный тип данных
                 n = Integer.parseInt(args[0]);
                 choice = Integer.parseInt(args[1]);
@@ -49,17 +51,16 @@ public class Main {
                 System.out.println("Неверное кол-во элементов");
                 return;
             }
-            if (choice < 1 || choice > 2){                  //Проверка правильности варианта
+            if (choice < 1 || choice > 3){                  //Проверка правильности варианта
                 System.out.println("Нет такого варианта ввода");
                 return;
             }
 
-            arr = new double[n];
             switch (choice) {               //Проверка на выбор ввода
                 case 1 -> {
                     System.out.printf("Выбран ручной ввод%n");
                     try {
-                        modul.ManualIn(arr, sc);
+                        modul.ManualIn(arrl, sc);
                     } catch (InputMismatchException e) {
                         System.out.println("Неверный тип данных");
                         sc.close();
@@ -68,8 +69,24 @@ public class Main {
 
                 }
                 case 2 -> {
-                    System.out.printf("Выбран автоматический ввод:%n");
-                    modul.AutoIn(arr);
+                    System.out.printf("Выбрано автоматическое заполнение:%n");
+                    System.out.printf("Ведите диапазон (по очереди верх низ)%n");
+                    modul.AutoIn(arrl, sc.nextDouble(),sc.nextDouble(),n);
+                }
+                case 3 -> {
+                    System.out.printf("Выбрано заполнение из файла:%n");
+                    System.out.printf("Введите путь читаемого файла:%n");
+                    url = sc.next();
+                    try{
+                        modul.FileIn(arrl, url);
+                    }
+                    catch ( FileNotFoundException e){
+                        System.out.println("Файл не найден");
+                        return;
+                    }
+                    catch (InputMismatchException e){
+                        System.out.println("Неверная запись числа");
+                    }
                 }
             }
         } else {                    //Если аргументом является -h или --help то выводится способ вызова программы
@@ -78,17 +95,36 @@ public class Main {
             return;                                             //ошибка о неверном количестве аргументов
         }
 
-        sc.close();
+
 
         System.out.println();
         System.out.println("Ваш массив:");      //Вывод массива
-        modul.printArr(arr);
+        modul.printArr(arrl);
 
-        sum = modul.Summ(arr);      //Нахождение суммы
+        sum = modul.Summ(arrl);      //Нахождение суммы
 
         answer = sin(abs(sum));     //Нахождение итогового ответа
 
-        System.out.printf("Ответ: %.15f",answer);
+        System.out.printf("Ответ: %.15f%n",answer);
+
+        System.out.printf("Записать массив в файл?%n [1] Да%n [2] Нет%n");
+        try {
+            if (1 == sc.nextInt()){
+                System.out.printf("Введите путь файла для записи:%n");
+                url = sc.next();
+                try{
+                    modul.FileOut(arrl, url);
+                }
+                catch ( FileNotFoundException e){
+                    System.out.println("Файл не найден");
+                    return;
+                }
+            };
+        }
+        catch (InputMismatchException e){
+            System.out.println("Это не целое число!");
+        }
+            sc.close();
     }
 
     static void printHelp() {
