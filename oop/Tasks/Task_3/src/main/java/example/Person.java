@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 //Личность
 public class Person {
-    private String firstName, middleName,lastName ;
-    private LocalDate birthDate;
+    private String firstName, middleName,lastName ; //Имя Отчество Фамилия
+    private LocalDate birthDate;    //Дата рождения
 
     //Формат для вывода даты
     public static final DateTimeFormatter Format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -96,12 +96,14 @@ public class Person {
     // геттер для возраста
     public int getAge(){return Period.between(birthDate, LocalDate.now()).getYears();}
 
-
+    //toString для вывода
     public String toString(){
         String info = String.format("%s %s %s %s", firstName, middleName, lastName, getbirthDateFormatted());
         return info;
     }
 
+
+    //Метод для очистки объекта
     public void clear(){
         firstName = "";
         middleName = "";
